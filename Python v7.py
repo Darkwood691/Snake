@@ -76,6 +76,9 @@ def pause():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return
+            if event.type == pygame.JOYBUTTONDOWN:
+                if joystick.get_button(9)==1:
+                    return
 
         
                 
@@ -140,7 +143,7 @@ while gameStart!=True:
                 textActive = False
 
             colour = colour_active if textActive else colour_inactive
-
+        
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                     gameStart=True
@@ -151,7 +154,15 @@ while gameStart!=True:
                     name=name[:-1]
                 else:
                     name += event.unicode
-
+            
+        if event.type == pygame.JOYBUTTONDOWN:
+            if joystick.get_button(9)==1:
+                gameStart=True
+        joystick_count = pygame.joystick.get_count()
+        for i in range(joystick_count):
+            joystick = pygame.joystick.Joystick(i)
+            joystick.init()
+        
     
                 
     gameDisplay.fill(white)
@@ -205,7 +216,10 @@ while gameExit != True:   #event handling (keypresses)
     for event in pygame.event.get():
         #print(event)
         if event.type == pygame.QUIT:
-            end() 
+            end()
+        if event.type == pygame.JOYBUTTONDOWN:
+            if joystick.get_button(9)==1:
+                pause()
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pause()
@@ -233,7 +247,7 @@ while gameExit != True:   #event handling (keypresses)
     for i in range(joystick_count):
         joystick = pygame.joystick.Joystick(i)
         joystick.init()
-
+        
         hats = joystick.get_numhats()
         for i in range(hats):
             hat=joystick.get_hat(i)

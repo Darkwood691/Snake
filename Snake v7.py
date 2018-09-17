@@ -23,7 +23,7 @@ pygame.display.set_caption("Snake") #set window title
 
 #variable setup---------------------------------------------------------
 
-sortType = "merge"
+sortType = "merge" #merge or bubble
 
 entryFont=pygame.font.SysFont("TimesNewRoman",15,bold=True,italic=False,)
 myFont=pygame.font.SysFont("TimesNewRoman", 20, bold=False, italic=False)
@@ -76,9 +76,6 @@ def pause():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return
-            if event.type == pygame.JOYBUTTONDOWN:
-                if joystick.get_button(9)==1:
-                    return
 
         
                 
@@ -106,7 +103,7 @@ fail=False
 try:
     scoreboard = open("scoreboard.txt", "r")
     oldScores=scoreboard.read()
-    #print(scoreSort.scoreSort(oldScores))
+    #print(scoreSort.sortPrep(oldScores,sortType))
     highScores=(scoreSort.sortPrep(oldScores,sortType))
     HS=len(highScores)
     if HS>=5:
@@ -118,8 +115,8 @@ try:
     if HS>=2:
         scoreTwo=" ".join(highScores[1])
     if HS>=1:
-        scoreOne=" ".join(highScores[0])
-        emptyScoreboard=False
+           scoreOne=" ".join(highScores[0])
+           emptyScoreboard=False
 except:
     print("scoreboard.txt not found")
     scoreboard=open("scoreboard.txt","w")
@@ -143,7 +140,7 @@ while gameStart!=True:
                 textActive = False
 
             colour = colour_active if textActive else colour_inactive
-        
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_RETURN:
                     gameStart=True
@@ -154,18 +151,7 @@ while gameStart!=True:
                     name=name[:-1]
                 else:
                     name += event.unicode
-                    
-        joystick_count = pygame.joystick.get_count()
-        for i in range(joystick_count):
-            joystick = pygame.joystick.Joystick(i)
-            joystick.init()
-           
-        if event.type == pygame.JOYBUTTONDOWN:
-            if joystick.get_button(9)==1:
-                gameStart=True
-        
-    
-                
+   
     gameDisplay.fill(white)
     
     labOne = scoreFont.render(("Enter Name:"),False,(0,0,0))
@@ -217,10 +203,7 @@ while gameExit != True:   #event handling (keypresses)
     for event in pygame.event.get():
         #print(event)
         if event.type == pygame.QUIT:
-            end()
-        if event.type == pygame.JOYBUTTONDOWN:
-            if joystick.get_button(9)==1:
-                pause()
+            end() 
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 pause()
@@ -244,75 +227,7 @@ while gameExit != True:   #event handling (keypresses)
                     lead_y_change = size
                     lead_x_change = 0
                     break
-    joystick_count = pygame.joystick.get_count()
-    for i in range(joystick_count):
-        joystick = pygame.joystick.Joystick(i)
-        joystick.init()
-        
-        hats = joystick.get_numhats()
-        for i in range(hats):
-            hat=joystick.get_hat(i)
-            if hat==(1,0):
-                #right
-                if lead_x_change == 0:
-                    lead_x_change = size                                                            
-                    lead_y_change = 0
-            elif hat==(-1,0):
-                #left
-                if lead_x_change == 0:
-                    lead_x_change = -size         
-                    lead_y_change = 0
-            elif hat==(0,1):
-                #up
-                if lead_y_change == 0:
-                    lead_y_change = -size
-                    lead_x_change = 0
-            elif hat==(0,-1):
-                #down
-                if lead_y_change == 0:
-                    lead_y_change = size
-                    lead_x_change = 0
-            """elif hat==(1,1):
-                #right&up
-                if lead_x_change == size:
-                    lead_x_change = 0
-                    lead_y_change = -size
-                    print("1")
-                elif lead_y_change == -size:
-                    lead_y_change = 0
-                    lead_x_change = size
-                    print("2")
-            elif hat==(1,-1):
-                #right&down
-                if lead_x_change == size:
-                    lead_x_change = 0
-                    lead_y_change = size
-                    print("1")
-                elif lead_y_change == size:
-                    lead_y_change = 0
-                    lead_x_change = size
-                    print("2")
-            elif hat==(-1,1):
-                #left&up
-                if lead_x_change == -size:
-                    lead_x_change = 0
-                    lead_y_change = -size
-                    print("1")
-                elif lead_y_change == -size:
-                    lead_y_change = 0
-                    lead_x_change = -size
-                    print("2")
-            elif hat==(-1,-1):
-                #left&down
-                if lead_x_change == -size:
-                    lead_x_change = 0
-                    lead_y_change = size
-                    print("1")
-                elif lead_y_change == size:
-                    lead_y_change = 0
-                    lead_x_change = -size
-                    print("2")"""
-            
+
     #dispaly wipe-----------------------------------------------------------                
 
     gameDisplay.fill(white)
@@ -398,7 +313,6 @@ while gameExit != True:   #event handling (keypresses)
     
     pygame.display.update()
 
-    
     if score <=5:
         clock.tick(8)
     elif score <= 10:
@@ -407,7 +321,7 @@ while gameExit != True:   #event handling (keypresses)
         clock.tick(10)
     elif score >15:
         clock.tick(11)
-    #clock.tick(12)
+    #lock.tick(12)
 
 #Game Over Screen---------------------------------------------------------------------
     

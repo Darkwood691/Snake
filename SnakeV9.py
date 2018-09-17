@@ -33,10 +33,14 @@ highScoreFont=pygame.font.SysFont("Arial", 20,False)
 
 score=0
 
+global lead_x 
 lead_x = 280
+global lead_y 
 lead_y = 280
+global lead_x_change 
 lead_x_change = 0
-lead_y_change = 0
+global lead_y_change 
+lead_y_change= 0
 
 clock = pygame.time.Clock()
 
@@ -213,6 +217,34 @@ while gameStart!=True:
 #game loop---------------------------------------------------------------------
 
 while gameExit != True:   #event handling (keypresses)
+    def right():
+        global lead_x_change
+        if lead_x_change == 0:
+            global lead_y_change
+            lead_x_change = size                                                            
+            lead_y_change = 0
+        return
+    def left():
+        global lead_x_change
+        if lead_x_change == 0:
+            global lead_y_change
+            lead_x_change = -size         
+            lead_y_change = 0
+        return
+    def up():
+        global lead_y_change
+        if lead_y_change == 0:
+            global lead_x_change
+            lead_y_change = -size
+            lead_x_change = 0
+        return
+    def down():
+        global lead_y_change
+        if lead_y_change == 0:
+            global lead_x_change
+            lead_y_change = size
+            lead_x_change = 0
+        return
     #event detection------------------------------------------------------------------
     for event in pygame.event.get():
         #print(event)
@@ -225,25 +257,14 @@ while gameExit != True:   #event handling (keypresses)
             if event.key == pygame.K_ESCAPE:
                 pause()
             if event.key == pygame.K_a or event.key == pygame.K_LEFT:
-                if lead_x_change == 0:
-                    lead_x_change = -size         
-                    lead_y_change = 0
-                    break
+                left()
             elif event.key == pygame.K_d or event.key == pygame.K_RIGHT:        
-                if lead_x_change == 0:
-                    lead_x_change = size                                                            
-                    lead_y_change = 0
-                    break
+                right()
             elif event.key == pygame.K_w or event.key == pygame.K_UP:
-                if lead_y_change == 0:
-                    lead_y_change = -size
-                    lead_x_change = 0
-                    break
+                up()
             elif event.key == pygame.K_s or event.key == pygame.K_DOWN:
-                if lead_y_change == 0:
-                    lead_y_change = size
-                    lead_x_change = 0
-                    break
+                down()
+                
     joystick_count = pygame.joystick.get_count()
     for i in range(joystick_count):
         joystick = pygame.joystick.Joystick(i)
@@ -253,25 +274,28 @@ while gameExit != True:   #event handling (keypresses)
         for i in range(hats):
             hat=joystick.get_hat(i)
             if hat==(1,0):
-                #right
-                if lead_x_change == 0:
-                    lead_x_change = size                                                            
-                    lead_y_change = 0
+                right()
             elif hat==(-1,0):
-                #left
-                if lead_x_change == 0:
-                    lead_x_change = -size         
-                    lead_y_change = 0
+                left()
             elif hat==(0,1):
-                #up
-                if lead_y_change == 0:
-                    lead_y_change = -size
-                    lead_x_change = 0
+                up()
             elif hat==(0,-1):
-                #down
-                if lead_y_change == 0:
-                    lead_y_change = size
-                    lead_x_change = 0
+                down()
+            elif hat==(0,0):
+                #temporary
+                #lead_x_change=0
+                #lead_y_change=0
+                LL=((joystick.get_axis(0))*255)
+                LP=((joystick.get_axis(1))*255)
+                if LL>=30 and LL>LP:
+                    right()
+                elif LL<=-30 and LL<LP:
+                    left()
+                elif LP>=30 and LP>LL:
+                    down()
+                elif LP<=-30 and LP<LL:
+                    up()
+                    
             """elif hat==(1,1):
                 #right&up
                 if lead_x_change == size:
@@ -312,7 +336,9 @@ while gameExit != True:   #event handling (keypresses)
                     lead_y_change = 0
                     lead_x_change = -size
                     print("2")"""
-            
+                    
+    
+    
     #dispaly wipe-----------------------------------------------------------                
 
     gameDisplay.fill(white)

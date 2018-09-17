@@ -31,6 +31,8 @@ scoreFont=pygame.font.SysFont("TimesNewRoman",20,bold=True,italic=False)
 bigFont=pygame.font.SysFont("TimesNewRoman", 50, bold=True, italic=False)
 highScoreFont=pygame.font.SysFont("Arial", 20,False)
 
+frameCount=1
+
 score=0
 
 global lead_x 
@@ -214,9 +216,14 @@ while gameStart!=True:
                     
     
 
-#game loop---------------------------------------------------------------------
+"""game loop------------------------------------------------------------------------------------"""
 
 while gameExit != True:   #event handling (keypresses)
+    
+    
+    #print(round(pygame.time.get_ticks()/100))
+    #print(clock.get_fps())
+    
     def right():
         global lead_x_change
         if lead_x_change == 0:
@@ -282,21 +289,19 @@ while gameExit != True:   #event handling (keypresses)
             elif hat==(0,-1):
                 down()
             elif hat==(0,0):
-                #temporary
-                #lead_x_change=0
-                #lead_y_change=0
-                LL=((joystick.get_axis(0))*255)
-                LP=((joystick.get_axis(1))*255)
-                if LL>=30 and LL>LP:
+                LH=((joystick.get_axis(0))*255)
+                LV=((joystick.get_axis(1))*255)
+                if LH>=30 and LH>LV:
                     right()
-                elif LL<=-30 and LL<LP:
+                elif LH<=-30 and LH<LV:
                     left()
-                elif LP>=30 and LP>LL:
+                elif LV>=30 and LV>LH:
                     down()
-                elif LP<=-30 and LP<LL:
+                elif LV<=-30 and LV<LH:
                     up()
+            """print(hat,"Hori",LH,"Vert",LV)"""
                     
-            """elif hat==(1,1):
+        """elif hat==(1,1):
                 #right&up
                 if lead_x_change == size:
                     lead_x_change = 0
@@ -340,7 +345,8 @@ while gameExit != True:   #event handling (keypresses)
     
     
     #dispaly wipe-----------------------------------------------------------                
-
+    
+        
     gameDisplay.fill(white)
 
     #font---------------------------------------------------------------------
@@ -419,11 +425,13 @@ while gameExit != True:   #event handling (keypresses)
     for item in snake:
         pygame.draw.rect(gameDisplay, grey, [(item[0]),(item[1]),size,size])
         
-    pygame.draw.rect(gameDisplay, black, [lead_x,lead_y,size,size]) # x,y (from top left), width, height    #snake head
-    pygame.draw.rect(gameDisplay, red, [fruit_x,fruit_y,size,size]) #fruit
+        pygame.draw.rect(gameDisplay, black, [lead_x,lead_y,size,size]) # x,y (from top left), width, height    #snake head
+        pygame.draw.rect(gameDisplay, red, [fruit_x,fruit_y,size,size]) #fruit
     
     pygame.display.update()
-
+    
+    
+            
     
     if score <=5:
         clock.tick(8)

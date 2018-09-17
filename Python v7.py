@@ -271,6 +271,46 @@ while gameExit != True:   #event handling (keypresses)
                 if lead_y_change == 0:
                     lead_y_change = size
                     lead_x_change = 0
+            """elif hat==(1,1):
+                #right&up
+                if lead_x_change == size:
+                    lead_x_change = 0
+                    lead_y_change = -size
+                    print("1")
+                elif lead_y_change == -size:
+                    lead_y_change = 0
+                    lead_x_change = size
+                    print("2")
+            elif hat==(1,-1):
+                #right&down
+                if lead_x_change == size:
+                    lead_x_change = 0
+                    lead_y_change = size
+                    print("1")
+                elif lead_y_change == size:
+                    lead_y_change = 0
+                    lead_x_change = size
+                    print("2")
+            elif hat==(-1,1):
+                #left&up
+                if lead_x_change == -size:
+                    lead_x_change = 0
+                    lead_y_change = -size
+                    print("1")
+                elif lead_y_change == -size:
+                    lead_y_change = 0
+                    lead_x_change = -size
+                    print("2")
+            elif hat==(-1,-1):
+                #left&down
+                if lead_x_change == -size:
+                    lead_x_change = 0
+                    lead_y_change = size
+                    print("1")
+                elif lead_y_change == size:
+                    lead_y_change = 0
+                    lead_x_change = -size
+                    print("2")"""
             
     #dispaly wipe-----------------------------------------------------------                
 
